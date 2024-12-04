@@ -1,0 +1,61 @@
+
+@startuml
+class User {
+    +id: PK
+    +name: string
+    +gender: string
+    +age: int
+    +occupation: string
+    +additional_info: JSON
+    +geolocation_lat: float
+    +geolocation_lon: float
+    +interaction_metadata: JSON
+    +created_at: datetime
+    +updated_at: datetime
+}
+
+class AdminUser {
+    +id: PK
+    +username: string
+    +password: string
+}
+
+class Question {
+    +id: PK
+    +text: string
+    +response_values: JSON
+    +category: string
+}
+
+class Diagnosis {
+    +id: PK
+    +min_score: int
+    +max_score: int
+    +message: string
+    +calculation_logic: JSON
+}
+
+class Doctor {
+    +id: PK
+    +name: string
+    +specialty: string
+    +geolocation_lat: float
+    +geolocation_lon: float
+    +contact_info: JSON
+}
+
+class Response {
+    +id: PK
+    +user_id: FK -> User.id
+    +question_id: FK -> Question.id
+    +response: string
+    +score: int
+    +timestamp: datetime
+}
+
+User "1" -- "0..*" Response
+AdminUser "1" -- "0..*" Diagnosis
+Response "*" -- "1" Question
+Response "*" -- "1" User
+Doctor "0..*" -- "1" User
+@enduml
